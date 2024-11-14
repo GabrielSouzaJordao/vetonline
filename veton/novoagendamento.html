@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetOn</title>
+    <link rel="stylesheet" href="src/css/estiloagendar.css">
+    <link rel="stylesheet" href="src/css/reset.css">
+    <link rel="icon" href="src/imagens/VET ON.png" type="image/x-icon">
+</head>
+<body>
+    <div class="home">
+        <Div class="cabecalho">
+            <img class="logo" src="src/imagens/VET ON.png" alt="logo cachorro">
+            <ul class="menu">
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="agendar"><a href="agendamento.html">Agendar</a></li>
+                <li id="sobrenos"><a href="sobrennos.html">Sobre Nós</a></li>
+                <li class="trabalhe"><a href="profissionais.html">Nossos Profissionais</a></li>
+            </ul>
+        </Div>
+
+        <div class="corpo-agendamento">
+            <div class="container">
+                <h1>Agendar Consulta Veterinária</h1>
+                <form action="novoagendamento.php" method="POST" onsubmit="return validarFormulario()">
+                    <label for="nome">Seu Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone" required pattern="[0-9]*" title="Por favor, insira apenas números.">
+
+                    <label for="veterinario">Selecione o Veterinário:</label>
+                    <select id="veterinario" name="veterinario" required>
+                        <option value="">Escolha um veterinário</option>
+                        <option value="luiz">Dr. Luiz</option>
+                        <option value="ana">Dra. Ana</option>
+                        <option value="clara">Dra. Clara</option>
+                    </select>
+
+                    <label for="data">Data da Consulta:</label>
+                    <input type="date" id="data" name="data" required>
+
+                    <label for="hora">Hora da Consulta:</label>
+                    <select id="hora" name="hora" required></select>
+
+                    <button type="submit">Agendar</button>
+                </form>
+            </div>
+        </div>
+
+        <Div class="contato">
+            <ul class="informacoes">
+                <h1>Contato</h1>
+                <li>Número de Telefone: <a href="https://wa.me/5511948588926">+55 (11) 94563-5632</a></li>
+                <li>E-mail: <a href="mailto:vetonlineee@gmail.com" target="_blank">vetonlineee@gmail.com</a></li>
+                <li>Endereço: Rua Sidney, 34 - 0391-8000</li>
+                <li><a href="trabalheconosco.html">Trabalhe Conosco</a></li>
+    
+            </ul>
+        </Div>
+
+    </div>
+
+    <script>
+        // Bloquear datas anteriores a hoje
+        const inputData = document.getElementById('data');
+        const hoje = new Date().toISOString().split('T')[0]; // Pega a data de hoje no formato YYYY-MM-DD
+        inputData.setAttribute('min', hoje);
+
+        const selectHora = document.getElementById('hora');
+
+        // Função para criar opções de horário de 30 em 30 minutos
+        function gerarOpcoesHorarios(dataSelecionada) {
+            selectHora.innerHTML = '';  // Limpa as opções anteriores
+            const agora = new Date();   // Pega a hora atual
+
+            // Se a data selecionada for hoje, limitamos os horários
+            let horaAtual = dataSelecionada === hoje ? agora.getHours() : 0;
+            let minutoAtual = dataSelecionada === hoje ? agora.getMinutes() : 0;
+
+            if (minutoAtual > 30) {
+                horaAtual += 1;
+                minutoAtual = 0;
+            } else {
+                minutoAtual = 30;
+            }
+
+            // Gera horários de 30 em 30 minutos
+            while (horaAtual < 24) {
+                let horaFormatada = horaAtual < 10 ? '0' + horaAtual : horaAtual;
+                let minutoFormatado = minutoAtual < 10 ? '0' + minutoAtual : minutoAtual;
+
+                // Cria uma nova opção de horário
+                const option = document.createElement('option');
+                option.value = `${horaFormatada}:${minutoFormatado}`;
+                option.text = `${horaFormatada}:${minutoFormatado}`;
+                selectHora.appendChild(option);
+
+                // Incrementa os minutos
+                minutoAtual += 30;
+                if (minutoAtual === 60) {
+                    minutoAtual = 0;
+                    horaAtual++;
+                }
+            }
+        }
+
+        // Gera horários iniciais (para qualquer data que não seja hoje)
+        gerarOpcoesHorarios(hoje);
+
+        // Verifica quando a data é alterada
+        inputData.addEventListener('change', function() {
+            const dataSelecionada = this.value;
+            gerarOpcoesHorarios(dataSelecionada);
+        });
+
+        // Função para validar o formulário
+        function validarFormulario() {
+            const telefone = document.getElementById('telefone').value;
+            if (!/^[0-9]+$/.test(telefone)) {
+                alert("Por favor, insira apenas números no campo de telefone.");
+                return false; // Bloqueia o envio do formulário
+            }
+            return true; // Permite o envio do formulário
+        }
+    </script>
+</body>
+</html>

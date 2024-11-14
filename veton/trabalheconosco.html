@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetOn</title>
+    <link rel="stylesheet" href="src/css/estilotrabalheconosco.css">
+    <link rel="stylesheet" href="src/css/reset.css">
+    <link rel="icon" href="src/imagens/VET ON.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="home">
+        <div class="cabecalho">
+            <img class="logo" src="src/imagens/VET ON.png" alt="logo cachorro">
+            <ul class="menu">
+                <li id="home"><a href="index.html">Home</a></li>
+                <li id="agendar"><a href="novoagendamento.html">Agendar</a></li>
+                <li id="sobrenos"><a href="sobrennos.html">Sobre Nós</a></li>
+                <li class="trabalhe"><a href="profissionais.html">Nossos Profissionais</a></li>
+            </ul>
+        </div>
+        <div class="espaco">
+            <div class="formulario">
+                <h2>Envio de Currículo</h2>
+                <form action="curriculos.php" method="post" enctype="multipart/form-data">
+                    <label for="nome">Nome completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+                    
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone" required inputmode="numeric" pattern="[0-9]*">
+                    
+                    <label for="curriculo">Enviar currículo:</label>
+                    <input class="upload" type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required>
+                    
+                    <input type="submit" value="Enviar Currículo">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
